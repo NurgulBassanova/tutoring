@@ -1,0 +1,51 @@
+#include <iostream>   //библиотека для ввода и вывода
+using namespace std;
+
+string s;
+
+struct Luggage{   //создаем структуру стракта(класса) Luggage(Груз)
+//у Стракта есть атрибуты, которые представляют из себя переменные и указатели(поинтеры)
+  string *description; //поинтер, описывающий вид груза. Например, "яблоко", "толстовка"
+  int count; //количество груза одного вида. Например, "15 яблок", "3 толстовки"
+  double weight; //вес груза
+};
+
+struct Passenger{ //создаем структуру стракта(класса) Passenger(Пассажир)
+//у Стракта есть атрибуты, которые представляют из себя переменные и указатели(поинтеры)
+  int luggageSize; //количество груза разных видов у 1 пассажира. Например, "у Ивана 2 груза: яблоки и толстовки"
+  string name; //имя пассажира
+  Luggage *luggage; //это просто поинтер, его не вводите. Он нужен для связи Стракта Пассажира и Стракта Груза.
+};
+
+int main()
+{
+  int n; //объвляете кол-во пассажиров
+  cin >> n; //вводите кол-во пассажиров
+  double maxWeight = -1.0; //просто ставите дефолтный максимальный вес груза. 
+  string personName, object;
+  for ( int I = 0; I < n; ++I )
+  {
+    Passenger Person;
+    cin >> Person.name >> Person.luggageSize;
+    Person.luggage = new Luggage[Person.luggageSize];
+    for ( int J = 0; J < Person.luggageSize; ++J )
+    {
+      string temp;
+      cin >> temp;
+      Person.luggage[J].description = new string(temp);
+      cin >> Person.luggage[J].count >> Person.luggage[J].weight;
+      
+      double totalWeight = Person.luggage[J].count * Person.luggage[J].weight;
+      if ( maxWeight < totalWeight )
+      {
+        maxWeight = totalWeight;
+        personName = Person.name;
+        object = *Person.luggage[J].description;
+      }
+    }
+  }
+
+  cout << personName << endl << object << endl;
+
+  return 0;
+}
